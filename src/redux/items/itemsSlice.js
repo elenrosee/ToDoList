@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addItem, fetchItems, removeItem } from "./itemsOperations";
+import { addItem, changeItem, fetchItems, removeItem } from "./itemsOperations";
 
 const initialState = {
   items: [],
@@ -25,7 +25,7 @@ const itemsSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(addItem.fulfilled, (state, action) => {
-      state.items = [action.payload, ...state.items];
+      state.items = [...state.items, action.payload];
       state.isLoading = false;
     });
     builder.addCase(addItem.rejected, (state) => {
@@ -36,10 +36,23 @@ const itemsSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(removeItem.fulfilled, (state, action) => {
-      state.items = state.items?.filter((i) => i?.id !== action.payload.id);
+      state.items = state.items?.filter((i) => i?.id !== action.meta.arg);
       state.isLoading = false;
     });
     builder.addCase(removeItem.rejected, (state) => {
+      state.isLoading = false;
+    });
+
+    builder.addCase(changeItem.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(changeItem.fulfilled, (state, action) => {
+      state.items = state.items?.map((i) =>
+        i?.id === action.meta.arg.id ? { ...i, ...action.meta.arg } : i
+      );
+      state.isLoading = false;
+    });
+    builder.addCase(changeItem.rejected, (state) => {
       state.isLoading = false;
     });
   },

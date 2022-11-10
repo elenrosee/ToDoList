@@ -1,12 +1,16 @@
-import "./App.css";
-import { Items } from "./components/Items";
+import { Container } from "./App.styled";
+import { ToDoForm, ToDoList } from "./components";
+import { GlobalStyle } from "./GlobalStyle";
 
 function App() {
   return (
-    <div>
-      TO Do List
-      <Items />
-    </div>
+    <>
+      <GlobalStyle />
+      <Container>
+        <ToDoForm />
+        <ToDoList />
+      </Container>
+    </>
   );
 }
 

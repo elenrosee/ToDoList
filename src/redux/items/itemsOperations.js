@@ -39,6 +39,14 @@ export const removeItem = createAsyncThunk(
   }
 );
 
-// export const changeDate = createAction("transactions/changeDate");
-
-// export const changeType = createAction("transactions/changeType");
+export const changeItem = createAsyncThunk(
+  "patchItem",
+  async (newItem, thunkAPI) => {
+    try {
+      const { data } = await axios.patch(`/items/${newItem.id}`, newItem);
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
