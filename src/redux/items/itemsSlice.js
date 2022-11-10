@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchItems } from "./itemsOperations";
+import { addItem, fetchItems, removeItem } from "./itemsOperations";
 
 const initialState = {
   items: [],
@@ -17,36 +17,31 @@ const itemsSlice = createSlice({
       state.items = action.payload;
       state.isLoading = false;
     });
+    builder.addCase(fetchItems.rejected, (state) => {
+      state.isLoading = false;
+    });
 
-    //   .addCase([fetchItems.fulfilled], (state, action) => {
-    //     state.items = action.payload;
-    //     state.isLoading = false;
-    //   });
-    // [fetchItems.rejected](state) {
-    //   state.isLoading = false;
-    // },
-    // [addItem.pending](state) {
-    //   state.isLoading = true;
-    // },
-    // [addItem.fulfilled](state, action) {
-    //   state.items = [action.payload.data, ...state.items];
-    //   state.isLoading = false;
-    // },
-    // [addItem.rejected](state) {
-    //   state.isLoading = false;
-    // },
-    // [removeItem.pending]: (state) => {
-    //   state.isLoading = true;
-    // },
-    // [removeItem.fulfilled]: (state, action) => {
-    //   state.items = state.items?.filter(
-    //     (i) => i?._id !== action.payload.data._id
-    //   );
-    //   state.isLoading = false;
-    // },
-    // [removeItem.rejected]: (state) => {
-    //   state.isLoading = false;
-    // },
+    builder.addCase(addItem.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(addItem.fulfilled, (state, action) => {
+      state.items = [action.payload, ...state.items];
+      state.isLoading = false;
+    });
+    builder.addCase(addItem.rejected, (state) => {
+      state.isLoading = false;
+    });
+
+    builder.addCase(removeItem.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(removeItem.fulfilled, (state, action) => {
+      state.items = state.items?.filter((i) => i?.id !== action.payload.id);
+      state.isLoading = false;
+    });
+    builder.addCase(removeItem.rejected, (state) => {
+      state.isLoading = false;
+    });
   },
 });
 

@@ -1,5 +1,21 @@
 {
-  "items": [{ "id": 1, "title": "json-server", "author": "typicode" }],
-  "comments": [{ "id": 1, "body": "some comment", "postId": 1 }],
-  "profile": { "name": "typicode" }
+  "items": [
+    {
+      "id": "d41a050c-9464-406d-a6c1-7c83abb4f914",
+      "name": "something",
+      "number": "12345"
+    },
+    {
+      "id": "be8b49dc-61b4-4a80-ab7b-d96ad0174e0d",
+      "name": "some",
+      "number": "new",
+      "status": false
+    },
+    {
+      "id": "f83407de-564b-4d75-abc7-3b2d58e09677",
+      "name": "else",
+      "number": "245",
+      "status": false
+    }
+  ]
 }

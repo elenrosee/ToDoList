@@ -16,10 +16,10 @@ export const fetchItems = createAsyncThunk(
 );
 
 export const addItem = createAsyncThunk(
-  "transactions/addTransaction",
-  async (newTransaction, thunkAPI) => {
+  "addItem",
+  async (newItem, thunkAPI) => {
     try {
-      const { data } = await axios.post(`/transactions`, newTransaction);
+      const { data } = await axios.post(`/items`, newItem);
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -28,10 +28,10 @@ export const addItem = createAsyncThunk(
 );
 
 export const removeItem = createAsyncThunk(
-  "transactions/removeTransaction",
-  async (idTransaction, thunkAPI) => {
+  "removeItem",
+  async (itemId, thunkAPI) => {
     try {
-      const { data } = await axios.delete(`/transactions/${idTransaction}`);
+      const { data } = await axios.delete(`/items/${itemId}`);
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);

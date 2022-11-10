@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import { fetchItems, getItems } from "../redux/items";
+import { ToDoForm } from "./ToDoForm";
 
 export const Items = () => {
   const dispatch = useDispatch();
@@ -9,13 +11,20 @@ export const Items = () => {
     dispatch(fetchItems());
   }, [dispatch]);
 
-  console.log(useSelector(getItems));
+  const items = useSelector(getItems);
 
   return (
     <div>
+      <ToDoForm />
       <ul>
-        <li>first</li>
-        <li>second</li>
+        {items.map((i) => {
+          return (
+            <li key={i.id}>
+              <h3>{i.name}</h3>
+              <p>{i.number}</p>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
