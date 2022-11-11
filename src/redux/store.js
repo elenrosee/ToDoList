@@ -11,8 +11,7 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
-import logger from "redux-logger";
-import { itemsReducer } from "./items/itemsSlice";
+import { itemsReducer } from "./items/itemsReducer";
 
 const userPersistConfig = {
   key: "items",
@@ -28,7 +27,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(logger),
+    }),
   devTools: process.env.NODE_ENV === "development",
 });
 

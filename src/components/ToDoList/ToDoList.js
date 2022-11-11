@@ -1,16 +1,9 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchItems, getItems } from "../../redux/items";
+import { useSelector } from "react-redux";
+import { getItems } from "../../redux/items";
 import { ToDoItem } from "../ToDoItem";
 import { ItemsList, Title, Wrapper } from "./ToDoList.styled";
 
 export const ToDoList = () => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchItems());
-  }, [dispatch]);
-
   const items = useSelector(getItems);
 
   return (

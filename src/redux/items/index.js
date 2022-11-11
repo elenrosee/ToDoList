@@ -1,3 +1,3 @@
-export { getItems, getIsLoading } from "./itemsSelectors";
+export { getItems } from "./itemsSelectors";
 
-export { addItem, fetchItems, removeItem, changeItem } from "./itemsOperations";
+export { addItem, removeItem, changeItem } from "./itemsActions";
