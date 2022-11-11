@@ -1,3 +1,28 @@
 {
-  "items": []
+  "items": [
+    {
+      "id": "d2dc2ab1-c051-4518-85b2-f00804a19cae",
+      "name": "nothing",
+      "checked": true,
+      "date": 1668126172000
+    },
+    {
+      "id": "eb17a52d-6b90-4517-a1f6-606e0c804e08",
+      "name": "new",
+      "checked": true,
+      "date": 1668126875000
+    },
+    {
+      "id": "222f317d-6f5c-4c80-83c3-7ae17a7118d6",
+      "name": "elen",
+      "checked": false,
+      "date": 1668126833000
+    },
+    {
+      "id": "db098247-4713-4f35-bbc0-2b210b79a8a8",
+      "name": "something from netlify",
+      "checked": false,
+      "date": 1668126997000
+    }
+  ]
 }

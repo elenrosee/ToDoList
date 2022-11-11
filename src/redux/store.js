@@ -1,5 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import {
+  persistStore,
+  persistReducer,
   FLUSH,
   REHYDRATE,
   PAUSE,
@@ -7,13 +9,19 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 
 import logger from "redux-logger";
 import { itemsReducer } from "./items/itemsSlice";
 
+const userPersistConfig = {
+  key: "items",
+  storage,
+};
+
 export const store = configureStore({
   reducer: {
-    items: itemsReducer,
+    items: persistReducer(userPersistConfig, itemsReducer),
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -23,3 +31,5 @@ export const store = configureStore({
     }).concat(logger),
   devTools: process.env.NODE_ENV === "development",
 });
+
+export const persistor = persistStore(store);
