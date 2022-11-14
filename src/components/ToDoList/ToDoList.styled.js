@@ -25,3 +25,10 @@ export const Title = styled.h3`
   width: 490px;
   color: #003d74; ;
 `;
+
+export const ItemBoard = styled.div`
+  border: solid 2px gray;
+  border-radius: 20px;
+  padding: 10px;
+  margin: 5px;
+`;

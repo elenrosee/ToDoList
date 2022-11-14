@@ -16,6 +16,8 @@ export const Item = styled.li`
   background-color: #f0f8ff;
   box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
     0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+
+  cursor: grab;
 `;
 
 export const DeleteBtn = styled.button`
@@ -55,16 +57,8 @@ export const BtnChecked = styled.button`
   }
 `;
 
-export const InputForm = styled.form`
-  & input {
-    background-color: transparent;
-    border: none;
-    outline: none;
-
-    width: 350px;
-
-    &::placeholder {
-      color: black;
-    }
-  }
+export const ToDoName = styled.h4`
+  border: none;
+  outline: none;
+  width: 350px;
 `;

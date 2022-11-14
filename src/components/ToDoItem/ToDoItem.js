@@ -1,69 +1,90 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { SvgCheckMark, SvgTrashBin } from "../../icons";
-import { changeItem, removeItem } from "../../redux/items";
-import { BtnChecked, DeleteBtn, InputForm, Item } from "./ToDoItem.styled";
+import { changeItem, getItems, removeItem } from "../../redux/items";
+import { BtnChecked, DeleteBtn, Item, ToDoName } from "./ToDoItem.styled";
 
-export const ToDoItem = ({ item }) => {
-  const { name, id, checked } = item;
-  const [toDo, setToDo] = useState("");
-
+export const ToDoItem = ({ item, selectedItem, setSelectedItem }) => {
   const dispatch = useDispatch();
+  const items = useSelector(getItems);
 
-  const handleChange = (event) => {
-    const { value } = event.target;
-    setToDo(value);
-  };
-
-  const deleteToDo = () => {
+  const deleteToDo = (id) => {
     dispatch(removeItem(id));
   };
 
-  const changeToDo = () => {
+  const changeToDo = ({ checked, id }) => {
     const isChecked = checked === true ? false : true;
+
+    const minItemsOrder = Math.min.apply(
+      null,
+      items.map((i) => i.order)
+    );
 
     const newItem = {
       id,
       checked: isChecked,
-      name: toDo || name,
-      date: Date.parse(new Date()),
+      order: minItemsOrder - 1,
     };
 
     dispatch(changeItem(newItem));
-    setToDo("");
   };
 
-  const handleSubmit = (e) => {
+  const dragStartHandler = (e, item) => {
+    setSelectedItem(item);
+  };
+
+  const dragEndHandler = (e) => {
+    e.currentTarget.style.backgroundColor = "#f0f8ff";
+  };
+
+  const dragOverHandler = (e) => {
+    e.preventDefault();
+    e.currentTarget.style.backgroundColor = "transparent";
+  };
+
+  const dropHandler = (e, item) => {
     e.preventDefault();
 
-    const newItem = {
-      id,
-      name: toDo,
-      date: Date.parse(new Date()),
-    };
+    items.forEach((i) => {
+      if (i.id === selectedItem.id) {
+        dispatch(
+          changeItem({
+            id: selectedItem.id,
+            order: item.order,
+            checked: item.checked,
+          })
+        );
+      } else if (i.id === item.id) {
+        dispatch(changeItem({ id: item.id, order: item.order + 1 }));
+      } else if (i.checked === item.checked && i.order > item.order) {
+        dispatch(changeItem({ id: i.id, order: i.order + 1 }));
+      } else {
+        return;
+      }
+    });
 
-    dispatch(changeItem(newItem));
-    setToDo("");
+    e.currentTarget.style.backgroundColor = "#f0f8ff";
   };
 
   return (
-    <Item>
+    <Item
+      key={item.id}
+      draggable={true}
+      onDragStart={(e) => dragStartHandler(e, item)}
+      onDragLeave={(e) => dragEndHandler(e)}
+      onDragEnd={(e) => dragEndHandler(e)}
+      onDragOver={(e) => dragOverHandler(e)}
+      onDrop={(e) => dropHandler(e, item)}
+    >
       <BtnChecked
-        onClick={() => changeToDo()}
-        className={checked ? "checked" : ""}
+        onClick={() => changeToDo(item)}
+        className={item.checked ? "checked" : ""}
       >
-        <SvgCheckMark fill={checked ? "white" : ""} />
+        <SvgCheckMark fill={item.checked ? "white" : ""} />
       </BtnChecked>
-      <InputForm onSubmit={(e) => handleSubmit(e)}>
-        <input
-          type="text"
-          maxLength="25"
-          autoComplete="off"
-          placeholder={name}
-          onChange={handleChange}
-        />
-      </InputForm>
-      <DeleteBtn onClick={() => deleteToDo()} type="submit">
+      <ToDoName>
+        {item.name} {item.order}
+      </ToDoName>
+      <DeleteBtn onClick={() => deleteToDo(item.id)} type="submit">
         <SvgTrashBin />
       </DeleteBtn>
     </Item>
