@@ -81,9 +81,7 @@ export const ToDoItem = ({ item, selectedItem, setSelectedItem }) => {
       >
         <SvgCheckMark fill={item.checked ? "white" : ""} />
       </BtnChecked>
-      <ToDoName>
-        {item.name} {item.order}
-      </ToDoName>
+      <ToDoName className={item.checked ? "checked" : ""}>{item.name}</ToDoName>
       <DeleteBtn onClick={() => deleteToDo(item.id)} type="submit">
         <SvgTrashBin />
       </DeleteBtn>

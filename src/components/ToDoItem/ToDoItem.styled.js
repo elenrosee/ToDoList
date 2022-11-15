@@ -10,6 +10,9 @@ export const Item = styled.li`
   align-items: center;
 
   margin-bottom: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+
   padding: 20px;
 
   border-radius: 15px;
@@ -61,4 +64,11 @@ export const ToDoName = styled.h4`
   border: none;
   outline: none;
   width: 350px;
+  color: rgba(36, 36, 36, 1);
+
+  &.checked {
+    color: rgba(36, 36, 36, 0.5);
+    position: relative;
+    text-decoration: line-through 2px;
+  }
 `;

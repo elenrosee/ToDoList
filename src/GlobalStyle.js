@@ -25,7 +25,6 @@ html {
 }
 
 body {
-min-width: 1000px;
   font-family: 'Josefin Sans', sans-serif;
   font-weight: 400;
   font-size: 14px;

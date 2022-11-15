@@ -2,7 +2,13 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { getItems } from "../../redux/items";
 import { ToDoItem } from "../ToDoItem";
-import { ItemsList, Title, Wrapper, ItemBoard } from "./ToDoList.styled";
+import {
+  ItemsList,
+  Title,
+  Wrapper,
+  ItemBoard,
+  BoardTitle,
+} from "./ToDoList.styled";
 
 export const ToDoList = () => {
   const [selectedItem, setSelectedItem] = useState(null);
@@ -23,9 +29,9 @@ export const ToDoList = () => {
 
       {items.length !== 0 && (
         <>
-          {notCheckedSortedItems.length > 0 && (
-            <ItemBoard>
-              <h3>Have To Do</h3>
+          <ItemBoard>
+            <BoardTitle>Have To Do</BoardTitle>
+            {notCheckedSortedItems.length > 0 && (
               <ItemsList>
                 {notCheckedSortedItems.map((item) => (
                   <ToDoItem
@@ -36,12 +42,11 @@ export const ToDoList = () => {
                   />
                 ))}
               </ItemsList>
-            </ItemBoard>
-          )}
-
-          {checkedSortedItems.length > 0 && (
-            <ItemBoard>
-              <h3>Already Done</h3>
+            )}
+          </ItemBoard>
+          <ItemBoard>
+            <BoardTitle>Already Done</BoardTitle>
+            {checkedSortedItems.length > 0 && (
               <ItemsList>
                 {checkedSortedItems.map((item) => (
                   <ToDoItem
@@ -52,8 +57,8 @@ export const ToDoList = () => {
                   />
                 ))}
               </ItemsList>
-            </ItemBoard>
-          )}
+            )}
+          </ItemBoard>
         </>
       )}
     </Wrapper>

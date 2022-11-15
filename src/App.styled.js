@@ -10,5 +10,5 @@ export const Container = styled.div`
   margin-right: auto;
   margin-top: 40px;
 
-  width: 1000px;
+  width: max-content;
 `;

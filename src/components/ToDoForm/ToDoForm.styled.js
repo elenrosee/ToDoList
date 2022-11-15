@@ -27,7 +27,7 @@ export const AddToDoForm = styled.form`
     border: none;
     outline: none;
     height: 30px;
-    width: 350px;
+    width: 300px;
 
     &::placeholder {
       color: black;
