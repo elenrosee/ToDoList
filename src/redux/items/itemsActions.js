@@ -5,3 +5,5 @@ export const addItem = createAction("addItem");
 export const removeItem = createAction("removeItem");
 
 export const changeItem = createAction("patchItem");
+
+export const changeItemsOrder = createAction("changeItemsOrder");

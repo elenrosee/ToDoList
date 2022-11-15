@@ -1,14 +1,13 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { v4 as uuidv4 } from "uuid";
 import { SvgPlus } from "../../icons";
-import { addItem, getItems } from "../../redux/items";
+import { addItem } from "../../redux/items";
 import { AddToDoForm, Btn, Title, Wrapper } from "./ToDoForm.styled";
 
 export const ToDoForm = () => {
   const [name, setName] = useState("");
-  const items = useSelector(getItems);
 
   const dispatch = useDispatch();
 
@@ -17,15 +16,9 @@ export const ToDoForm = () => {
     setName(value);
   };
 
-  const minItemsOrder = Math.min.apply(
-    null,
-    items.map((i) => i.order)
-  );
-
   const newItem = {
     id: uuidv4(),
     name,
-    order: minItemsOrder - 1,
     checked: false,
   };
 

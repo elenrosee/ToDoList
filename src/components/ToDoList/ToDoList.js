@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
-import { getItems } from "../../redux/items";
+import { useDispatch, useSelector } from "react-redux";
+import { changeItem, getItems } from "../../redux/items";
 import { ToDoItem } from "../ToDoItem";
 import {
   ItemsList,
@@ -12,16 +12,34 @@ import {
 
 export const ToDoList = () => {
   const [selectedItem, setSelectedItem] = useState(null);
-
+  const dispatch = useDispatch();
   const items = useSelector(getItems);
 
-  const checkedSortedItems = items
-    ?.filter((i) => i.checked === true)
-    .sort((a, b) => a.order > b.order);
+  const sorted = (arr) => {
+    return arr.sort((a, b) => {
+      if (a.order < b.order) {
+        return 1;
+      } else if (a.order > b.order) {
+        return -1;
+      } else return 0;
+    });
+  };
 
-  const notCheckedSortedItems = items
-    ?.filter((i) => i.checked === false)
-    .sort((a, b) => a.order > b.order);
+  const checkedItems = items?.filter((i) => i.checked === true);
+
+  const notCheckedItems = items?.filter((i) => i.checked === false);
+
+  const dragOverHandler = (e) => {
+    e.preventDefault();
+  };
+
+  const boardDropHandler = (e, checked) => {
+    e.preventDefault();
+
+    if (e.target.nodeName === "DIV") {
+      dispatch(changeItem({ ...selectedItem, checked }));
+    }
+  };
 
   return (
     <Wrapper>
@@ -29,11 +47,14 @@ export const ToDoList = () => {
 
       {items.length !== 0 && (
         <>
-          <ItemBoard>
+          <ItemBoard
+            onDragOver={(e) => dragOverHandler(e)}
+            onDrop={(e) => boardDropHandler(e, false)}
+          >
             <BoardTitle>Have To Do</BoardTitle>
-            {notCheckedSortedItems.length > 0 && (
+            {notCheckedItems.length > 0 && (
               <ItemsList>
-                {notCheckedSortedItems.map((item) => (
+                {sorted(notCheckedItems).map((item) => (
                   <ToDoItem
                     key={item.id}
                     item={item}
@@ -44,11 +65,14 @@ export const ToDoList = () => {
               </ItemsList>
             )}
           </ItemBoard>
-          <ItemBoard>
+          <ItemBoard
+            onDragOver={(e) => dragOverHandler(e)}
+            onDrop={(e) => boardDropHandler(e, true)}
+          >
             <BoardTitle>Already Done</BoardTitle>
-            {checkedSortedItems.length > 0 && (
+            {checkedItems.length > 0 && (
               <ItemsList>
-                {checkedSortedItems.map((item) => (
+                {sorted(checkedItems).map((item) => (
                   <ToDoItem
                     key={item.id}
                     item={item}

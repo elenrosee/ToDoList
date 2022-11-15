@@ -1,31 +1,18 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { SvgCheckMark, SvgTrashBin } from "../../icons";
-import { changeItem, getItems, removeItem } from "../../redux/items";
+import { changeItem, changeItemsOrder, removeItem } from "../../redux/items";
 import { BtnChecked, DeleteBtn, Item, ToDoName } from "./ToDoItem.styled";
 
 export const ToDoItem = ({ item, selectedItem, setSelectedItem }) => {
   const dispatch = useDispatch();
-  const items = useSelector(getItems);
-
-  const deleteToDo = (id) => {
-    dispatch(removeItem(id));
+  const deleteToDo = (item) => {
+    dispatch(removeItem(item));
   };
 
-  const changeToDo = ({ checked, id }) => {
-    const isChecked = checked === true ? false : true;
+  const changeToDo = (item) => {
+    const isChecked = item.checked === true ? false : true;
 
-    const minItemsOrder = Math.min.apply(
-      null,
-      items.map((i) => i.order)
-    );
-
-    const newItem = {
-      id,
-      checked: isChecked,
-      order: minItemsOrder - 1,
-    };
-
-    dispatch(changeItem(newItem));
+    dispatch(changeItem({ ...item, checked: isChecked }));
   };
 
   const dragStartHandler = (e, item) => {
@@ -44,23 +31,12 @@ export const ToDoItem = ({ item, selectedItem, setSelectedItem }) => {
   const dropHandler = (e, item) => {
     e.preventDefault();
 
-    items.forEach((i) => {
-      if (i.id === selectedItem.id) {
-        dispatch(
-          changeItem({
-            id: selectedItem.id,
-            order: item.order,
-            checked: item.checked,
-          })
-        );
-      } else if (i.id === item.id) {
-        dispatch(changeItem({ id: item.id, order: item.order + 1 }));
-      } else if (i.checked === item.checked && i.order > item.order) {
-        dispatch(changeItem({ id: i.id, order: i.order + 1 }));
-      } else {
-        return;
-      }
-    });
+    dispatch(
+      changeItemsOrder({
+        selectedItem,
+        item,
+      })
+    );
 
     e.currentTarget.style.backgroundColor = "#f0f8ff";
   };
@@ -82,7 +58,7 @@ export const ToDoItem = ({ item, selectedItem, setSelectedItem }) => {
         <SvgCheckMark fill={item.checked ? "white" : ""} />
       </BtnChecked>
       <ToDoName className={item.checked ? "checked" : ""}>{item.name}</ToDoName>
-      <DeleteBtn onClick={() => deleteToDo(item.id)} type="submit">
+      <DeleteBtn onClick={() => deleteToDo(item)} type="submit">
         <SvgTrashBin />
       </DeleteBtn>
     </Item>
