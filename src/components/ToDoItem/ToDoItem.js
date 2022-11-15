@@ -31,12 +31,16 @@ export const ToDoItem = ({ item, selectedItem, setSelectedItem }) => {
   const dropHandler = (e, item) => {
     e.preventDefault();
 
-    dispatch(
-      changeItemsOrder({
-        selectedItem,
-        item,
-      })
-    );
+    if (item.checked !== selectedItem.checked) {
+      changeToDo(selectedItem);
+    } else {
+      dispatch(
+        changeItemsOrder({
+          selectedItem,
+          item,
+        })
+      );
+    }
 
     e.currentTarget.style.backgroundColor = "#f0f8ff";
   };
